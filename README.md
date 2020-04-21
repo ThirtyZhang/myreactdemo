@@ -1,68 +1,143 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 创建启动
 
-## Available Scripts
+初始化项目，命令： `npx create-react-app myreact`
 
-In the project directory, you can run:
+切换到项目根目录: `cd myreact`
 
-### `npm start`
+启动: `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## Demo
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`src/index.js` 在文件中输入以下内容
 
-### `npm run build`
+```js
+// 引入 react 和 react-dom
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+let loading = false
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+function my(){
+  if (loading){
+    return <div>
+      加载中....
+    </div>
+  }else{
+    return <div>
+      加载完成....
+    </div>
+  }
+}
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+// 把方法的返回结果渲染到 public/index.html 中
+ReactDOM.render(my(),document.getElementById("root"))
+```
 
-### `npm run eject`
+在浏览器中查看结果
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+加载完成....
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 样式
 
-## Learn More
+在style里面我们通过对象的方式传递数据
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```react
+<li key={item.id} style={{'color': 'red',"backgroundColor": 'pink'}}>{item.name}</li>
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+这种方式比较的麻烦，不方便进行阅读，而且还会导致代码比较的繁琐
 
-### Code Splitting
+##### 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+创建CSS文件编写样式代码
 
-### Analyzing the Bundle Size
+```css
+.container {
+    text-align: center
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+在js中进行引入，然后设置类名即可
 
-### Making a Progressive Web App
+```react
+import './css/index.css'
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+<li className='container' key={item.id} style={{'color': 'red',"backgroundColor": 'pink'}}>{item.name}</li>
+```
 
-### Advanced Configuration
+## 组件化
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### 定义样式
 
-### Deployment
+`src/css/list.css`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+```css
+.list{
+    width: 300px;
+    height: 500px;
+    margin: 10px auto; 
+    display: block;
+}
+......
+```
 
-### `npm run build` fails to minify
+### 定义组件并导出
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+`src/components/list.js`
+
+```js
+import React from 'react' // 引入react
+import '../css/list.css'  // 引入样式
+
+// 定义组件
+class List extends React.Component {
+    // 定义数据
+    state = {
+        comments: [
+            { id: 1, name: 'jack', content: '沙发！！！' },
+            { id: 2, name: 'rose', content: '板凳~' },
+            { id: 3, name: 'tom', content: '楼主好人' }
+        ]
+    }
+    render() {
+        return <div className='list'>
+            <input type='text' placeholder="请输入评论人" ></input>
+            <textarea></textarea>
+            <button type='submit'>提交评论</button>
+
+            <ul>
+                {
+                this.state.comments.map(item => {
+                    return (
+                    <li key={item.id}>
+                        <h3>评论人：{item.name}</h3>
+                        <p>评论内容：{item.content}</p>
+                    </li>)
+                })
+                }
+
+            </ul>
+        </div>
+    }
+}
+// 导出组件
+export default List
+```
+
+### 引入组件
+
+`src/index.js`
+
+```js
+import List from './components/list' // 引入
+
+// 把方法的返回结果渲染到 public/index.html 中
+ReactDOM.render(<List></List>,document.getElementById("root"))
+```
+

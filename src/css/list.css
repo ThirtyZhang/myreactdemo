@@ -1,0 +1,25 @@
+.list{
+    width: 300px;
+    height: 500px;
+    margin: 10px auto; 
+    display: block;
+}
+input{
+    display: block;
+    width: 200px;
+    margin: 10px auto; 
+}
+textarea {
+    display: block;
+    width: 200px;
+    margin: 10px auto; 
+    height: 300px;
+}
+button{
+    display: block;
+    height: 50px;
+    width: 100px;
+    text-align: center;
+    line-height: 50px;
+    margin: 10px auto; 
+}

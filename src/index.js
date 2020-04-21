@@ -1,17 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+// 引入 react 和 react-dom
+import React from 'react'
+import ReactDOM from 'react-dom'
+import List from './components/list'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+let loading = false
+let aa = [1,2]
+function my(){
+  if (loading){
+    return <div>
+      加载中....{aa}
+    </div>
+  }else{  
+    return <div>
+      加载完成....{aa.map(a => "abc") } 22
+    </div>
+  }
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// 把方法的返回结果渲染到 public/index.html 中
+ReactDOM.render(<List></List>,document.getElementById("root"))
